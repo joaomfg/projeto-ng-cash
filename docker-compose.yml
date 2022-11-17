@@ -19,7 +19,7 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=123456
       - DB_HOST=localhost
-      - DB_PORT=3002
+      - DB_PORT=5432
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"]
       timeout: 10s
