@@ -17,7 +17,7 @@ User.init({
   accountId: { type: INTEGER, allowNull: false },
 }, {
   underscored: true,
-  modelName: 'User',
+  modelName: 'user',
   sequelize: db,
   timestamps: false,
 });

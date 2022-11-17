@@ -1,4 +1,4 @@
-import { Model, INTEGER, DATE } from 'sequelize';
+import { Model, INTEGER, DATE, NOW } from 'sequelize';
 import db from '.';
 
 import Account from './account';
@@ -16,10 +16,10 @@ Transaction.init({
   debitedAccountId: { type: INTEGER, allowNull: false },
   creditedAccountId: { type: INTEGER, allowNull: false },
   value: { type: INTEGER, allowNull: false },
-  createdAt: { type: DATE, allowNull: false, defaultValue: Date.now() },
+  createdAt: { type: DATE, allowNull: false, defaultValue: NOW },
 }, {
   underscored: true,
-  modelName: 'Transaction',
+  modelName: 'transaction',
   sequelize: db,
   timestamps: false,
 });

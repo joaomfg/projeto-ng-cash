@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Transactions', {
+    await queryInterface.createTable('transactions', {
       id: {
         primaryKey: true,
         autoIncrement: true,
@@ -14,7 +14,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-          model: 'Accounts',
+          model: 'accounts',
           key: 'id',
         },
       },
@@ -25,7 +25,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-          model: 'Accounts',
+          model: 'accounts',
           key: 'id',
         },
       },
@@ -34,7 +34,7 @@ module.exports = {
         allowNull: false,
       },
       createdAt: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Date.now(),
         field: 'created_at',
@@ -43,6 +43,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('Transactions');
+    await queryInterface.dropTable('transactions');
   },
 };
