@@ -29,7 +29,7 @@ export default class JwtValidation {
     const user = await User.findOne({ where: { username: decoded.data.username } });
 
     if (!user) {
-      return res.status(401).json({ message: 'Expired or invalid token' });
+      return res.status(401).json({ message: 'Expired token' });
     }
 
     req.body = user;

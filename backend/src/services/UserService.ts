@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize';
 import * as config from '../database/config/database';
 import User from '../database/models/user';
 import Account from '../database/models/account';
-import { IUser, UserZodSchema } from '../interfaces/IUser';
+import { IUser } from '../interfaces/IUser';
 import JwtValidation from '../auth/jwt';
 
 const sequelize = new Sequelize(config);
@@ -12,11 +12,7 @@ export default class UserService {
     model = User;
     accountModel = Account;
 
-    create = async (obj: any): Promise<string> => {
-        const parsed = UserZodSchema.safeParse(obj);
-
-        if (!parsed.success) throw parsed.error;
-        
+    create = async (obj: any): Promise<string> => {        
         const { username, password } = obj;
 
         const result = await sequelize.transaction(async (t) => {
@@ -48,23 +44,19 @@ export default class UserService {
         return user;
     };
 
-    login = async (obj: IUser) => {
-        const parsed = UserZodSchema.safeParse(obj);
-
-        if (!parsed.success) throw parsed.error;
-        
+    login = async (obj: IUser): Promise<string> => {
         const { username, password } = obj;
 
         const user = await this.model.findOne({ where: { username } });
 
         if (!user) {
-          return { message: 'Incorrect username' };
+          return 'Incorrect username';
         }
 
         const comparePassword = bcrypt.compareSync(password, user.password);
 
         if (!comparePassword) {
-            return { message: 'Incorrect password' };
+            return 'Incorrect password';
         }
 
         const token = JwtValidation.createJwt(username);

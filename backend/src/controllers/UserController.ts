@@ -9,9 +9,9 @@ class UserController {
 
     const user = await this.service.login(body);
 
-    if (user === 'Incorrect email' || user === 'Incorrect password') {
+    if (user === 'Incorrect username' || user === 'Incorrect password') {
       return res
-        .status(401).json({ message: 'Incorrect email or password' });
+        .status(401).json({ message: user });
     }
 
     res.status(200).json({ token: user });
@@ -23,6 +23,18 @@ class UserController {
     const newUser = await this.service.create(body);
 
     res.status(200).json({ token: newUser });
+  };
+
+  findById = async (req: Request, res: Response) => {
+    const { id } = req.body;
+
+    const findUser = await this.service.findById(id);
+
+    if (typeof findUser === 'string') {
+      return res.status(400).json({ message: findUser });
+    }
+
+    res.status(200).json(findUser);
   };
 }
 
