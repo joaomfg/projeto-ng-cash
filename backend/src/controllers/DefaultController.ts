@@ -8,7 +8,6 @@ export default abstract class DefaultController<T> {
 
   async create(req: Request, res: Response) {
     const { body } = req;
-    console.log(body);
     
     const newDoc = await this._service.create(body);
 

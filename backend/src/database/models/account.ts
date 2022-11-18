@@ -8,7 +8,7 @@ class Account extends Model {
 
 Account.init({
   id: { type: INTEGER, allowNull: false, primaryKey: true, autoIncrement: true },
-  balance: { type: DECIMAL, allowNull: false },
+  balance: { type: DECIMAL(10, 2), allowNull: false },
 }, {
   underscored: true,
   modelName: 'account',

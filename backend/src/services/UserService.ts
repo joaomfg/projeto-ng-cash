@@ -4,6 +4,7 @@ import * as config from '../database/config/database';
 import User from '../database/models/user';
 import Account from '../database/models/account';
 import { IUser } from '../interfaces/IUser';
+import JwtValidation from '../auth/jwt';
 // import JwtValidation from '../middlewares/jwt';
 
 const sequelize = new Sequelize(config);
@@ -25,14 +26,17 @@ export default class UserService {
             },
             { transaction: t });
 
-            return newUser;
+            return {
+                ...newUser.dataValues,
+                token: JwtValidation.createJwt(username),
+            };
         });
-
+        
         return result;
     };
 
     findAll = async () => {
-        const result = await this.model.findAll();
+        const result = await this.model.findAll({ include: { model: Account, as: 'userAccount' } });
         return result;
     };
 
