@@ -1,15 +1,16 @@
-import { Sequelize } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import Transaction from '../database/models/transaction';
 import * as config from '../database/config/database';
 import { ITransaction } from '../interfaces/ITransaction';
 import Account from '../database/models/account';
+import User from '../database/models/user';
 import { IAccount } from '../interfaces/IAccount';
 import { ErrorTypes } from '../errors/catalog';
 
 const sequelize = new Sequelize(config);
 
 export default class TransactionService {
-    private _model = Transaction;
+    private _transactionModel = Transaction;
     private _accountModel = Account;
 
     newTransaction = async (obj: ITransaction): Promise<ITransaction> => {
@@ -30,7 +31,7 @@ export default class TransactionService {
                 { where: { id: creditedAccountId } },
             );
 
-            const createTransaction = await this._model.create({
+            const createTransaction = await this._transactionModel.create({
                 debitedAccountId,
                 creditedAccountId,
                 value,
@@ -54,5 +55,18 @@ export default class TransactionService {
         if (!creditedUser) throw new Error(ErrorTypes.UserNotFound);
 
         return [debitedUser, creditedUser];
+    };
+
+    findUserTransactions = async (accountId: string): Promise<ITransaction[]> => {
+        const allTransactions = await this._transactionModel.findAll({
+            where: {
+              [Op.or]: [
+                { debitedAccountId: accountId },
+                { creditedAccountId: accountId },
+              ]
+            },
+        });
+
+        return allTransactions;
     };
 }

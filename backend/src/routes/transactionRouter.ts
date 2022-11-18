@@ -15,4 +15,9 @@ transactionRouter.post('/',
     transactionController.newTransaction,
 );
 
+transactionRouter.get('/:id',
+    JwtValidation.validateToken,
+    transactionController.findUserTransactions,
+);
+
 export default transactionRouter;
