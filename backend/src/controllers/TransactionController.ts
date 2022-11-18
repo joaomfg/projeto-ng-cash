@@ -19,4 +19,13 @@ export default class TransactionController {
 
     res.status(200).json(allUserTransactions);
   };
+
+  filterTr = async (req: Request, res: Response) => {
+    const { body } = req;
+    const { id } = req.params;
+
+    const filteredTransactions = await this._service.filterTr(body, id);
+
+    res.status(200).json(filteredTransactions);
+  };
 }

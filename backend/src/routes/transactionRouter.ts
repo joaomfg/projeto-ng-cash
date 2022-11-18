@@ -20,4 +20,9 @@ transactionRouter.get('/:id',
     transactionController.findUserTransactions,
 );
 
+transactionRouter.get('/filter/:id',
+    JwtValidation.validateToken,
+    transactionController.filterTr,
+);
+
 export default transactionRouter;
