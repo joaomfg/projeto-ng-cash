@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { ErrorTypes } from '../errors/catalog';
 import User from '../database/models/user';
-import { IUser, UserZodSchema } from '../interfaces/IUser';
+import { UserZodSchema } from '../interfaces/IUser';
 
 export default class ValidateUser {
   static model = User;
@@ -11,7 +12,7 @@ export default class ValidateUser {
     const userExists = await this.model.findOne({ where: { username } });
     
     if (userExists) {
-      return res.status(400).json({ message: 'This username is taken!' });
+      throw new Error(ErrorTypes.TakenUsername);
     }
 
     const parsed = UserZodSchema.safeParse({ username, password });

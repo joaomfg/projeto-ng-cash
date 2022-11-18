@@ -2,6 +2,10 @@ export enum ErrorTypes {
     UserNotFound = 'UserNotFound',
     IncorrectUsername = 'IncorrectUsername',
     IncorrectPassword = 'IncorrectPassword',
+    TakenUsername = 'TakenUsername',
+    InvalidToken = 'InvalidToken',
+    EqualUsernames = 'EqualUsernames',
+    InsuficientFunds = 'InsuficientFunds',
   }
   
   type ErrorResponseObject = {
@@ -15,7 +19,7 @@ export enum ErrorTypes {
   
   export const errorCatalog: ErrorCatalog = {
     UserNotFound: {
-      message: 'Object not found',
+      message: 'User not found',
       httpStatus: 404,
     },
     IncorrectUsername: {
@@ -25,6 +29,22 @@ export enum ErrorTypes {
     IncorrectPassword: {
       message: 'Incorrect password',
       httpStatus: 401,
+    },
+    InvalidToken: {
+      message: 'Invalid token',
+      httpStatus: 401,
+    },
+    TakenUsername: {
+      message: 'This username is taken',
+      httpStatus: 409,
+    },
+    EqualUsernames: {
+      message: 'You can\'t make a transaction to yourself',
+      httpStatus: 400,
+    },
+    InsuficientFunds: {
+      message: 'Insuficient funds',
+      httpStatus: 400,
     },
   };
   

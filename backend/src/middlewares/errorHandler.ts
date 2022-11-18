@@ -16,8 +16,6 @@ const errorHandler: ErrorRequestHandler = (err: Error | ZodError, _req, res, _ne
     return res.status(httpStatus).json({ error: message });
   }
 
-  err.message === 'invalid token' && res.status(401).json({ message: err.message });
-
   console.log(err.message);
   return res.status(500).json({ message: 'internal error' });
 };

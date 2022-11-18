@@ -64,4 +64,19 @@ export default class UserService {
 
         return token;
     };
+
+    findByUsername = async (username: string): Promise<IUser> => {
+        console.log(username);
+        
+        const user = await this._model.findOne({ 
+          where: { username },
+          include: { model: Account, as: 'userAccount' },
+        });
+
+        if (!user) {
+            throw new Error(ErrorTypes.UserNotFound);
+        }
+
+        return user;
+    };
 }

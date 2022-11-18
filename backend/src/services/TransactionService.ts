@@ -12,7 +12,7 @@ export default class TransactionService {
     private _model = Transaction;
     private _accountModel = Account;
 
-    makeTransaction = async (obj: ITransaction): Promise<ITransaction> => {
+    newTransaction = async (obj: ITransaction): Promise<ITransaction> => {
         const { debitedAccountId, creditedAccountId, value } = obj;
 
         const accounts = await this.getAccounts({ debitedAccountId, creditedAccountId });
@@ -30,13 +30,13 @@ export default class TransactionService {
                 { where: { id: creditedAccountId } },
             );
 
-            const newTransaction = await this._model.create({
+            const createTransaction = await this._model.create({
                 debitedAccountId,
                 creditedAccountId,
                 value,
             });
 
-            return newTransaction;
+            return createTransaction;
         });
 
         return makeTransaction;

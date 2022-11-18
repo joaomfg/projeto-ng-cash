@@ -2,12 +2,12 @@ import { Request, Response } from 'express';
 import UserService from '../services/UserService';
 
 class UserController {
-  service = new UserService();
+  private _service = new UserService();
 
   login = async (req: Request, res: Response) => {
     const { body } = req;
 
-    const user = await this.service.login(body);
+    const user = await this._service.login(body);
 
     res.status(200).json({ token: user });
   };
@@ -15,15 +15,15 @@ class UserController {
   create = async (req: Request, res: Response) => {
     const { body } = req;
 
-    const newUser = await this.service.create(body);
+    const newUser = await this._service.create(body);
 
     res.status(200).json({ token: newUser });
   };
 
-  findById = async (req: Request, res: Response) => {
-    const { id } = req.body;
+  findById = async (req: Request, res: Response) => {    
+    const { user: { id } } = req.body;
 
-    const findUser = await this.service.findById(id);
+    const findUser = await this._service.findById(id);
 
     res.status(200).json(findUser);
   };
