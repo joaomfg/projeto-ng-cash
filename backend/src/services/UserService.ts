@@ -3,9 +3,8 @@ import { Sequelize } from 'sequelize';
 import * as config from '../database/config/database';
 import User from '../database/models/user';
 import Account from '../database/models/account';
-import { IUser } from '../interfaces/IUser';
+import { IUser, UserZodSchema } from '../interfaces/IUser';
 import JwtValidation from '../auth/jwt';
-// import JwtValidation from '../middlewares/jwt';
 
 const sequelize = new Sequelize(config);
 
@@ -13,36 +12,63 @@ export default class UserService {
     model = User;
     accountModel = Account;
 
-    create = async (obj: any) => {
+    create = async (obj: any): Promise<string> => {
+        const parsed = UserZodSchema.safeParse(obj);
+
+        if (!parsed.success) throw parsed.error;
+        
         const { username, password } = obj;
 
         const result = await sequelize.transaction(async (t) => {
             const newAccount = await this.accountModel.create({ balance: 100.00 });
-            
-            const newUser = await this.model.create({
+
+            await this.model.create({
                 username,
                 password: bcrypt.hashSync(password, 8),
                 accountId: newAccount.id,
             },
-            { transaction: t });
+                { transaction: t });
 
-            return {
-                ...newUser.dataValues,
-                token: JwtValidation.createJwt(username),
-            };
+            return JwtValidation.createJwt(username);
         });
+
+        return result;
+    };
+
+    findById = async (id: string): Promise<IUser | string> => {
+        const user = await this.model.findByPk(
+            id,
+            { include: { model: Account, as: 'userAccount' },
+        });
+
+        if (!user) {
+            return 'User does not exist';
+        }
+
+        return user;
+    };
+
+    login = async (obj: IUser) => {
+        const parsed = UserZodSchema.safeParse(obj);
+
+        if (!parsed.success) throw parsed.error;
         
-        return result;
+        const { username, password } = obj;
+
+        const user = await this.model.findOne({ where: { username } });
+
+        if (!user) {
+          return { message: 'Incorrect username' };
+        }
+
+        const comparePassword = bcrypt.compareSync(password, user.password);
+
+        if (!comparePassword) {
+            return { message: 'Incorrect password' };
+        }
+
+        const token = JwtValidation.createJwt(username);
+
+        return token;
     };
-
-    findAll = async () => {
-        const result = await this.model.findAll({ include: { model: Account, as: 'userAccount' } });
-        return result;
-    };
-
-    findById = async (id: string) => null;
-
-    update = async (id: string, body: IUser) => null;
-
-    delete = async (id: string) => {};
 }

@@ -6,16 +6,19 @@ const errorHandler: ErrorRequestHandler = (err: Error | ZodError, _req, res, _ne
   if (err instanceof ZodError) {
     return res.status(400).json({ message: err.issues });
   }
-
+  
   const messageAsErrorType = err.message as keyof typeof ErrorTypes;
-
+  
   const mappedError = errorCatalog[messageAsErrorType];
 
   if (mappedError) {
     const { httpStatus, message } = mappedError;
     return res.status(httpStatus).json({ error: message });
   }
-  console.log(err);
+
+  err.message === 'invalid token' && res.status(401).json({ message: err.message });
+
+  console.log(err.message);
   return res.status(500).json({ message: 'internal error' });
 };
 

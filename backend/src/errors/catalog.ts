@@ -1,5 +1,6 @@
 export enum ErrorTypes {
     EntityNotFound = 'EntityNotFound',
+    InvalidToken = 'InvalidToken',
   }
   
   type ErrorResponseObject = {
@@ -16,5 +17,9 @@ export enum ErrorTypes {
       message: 'Object not found',
       httpStatus: 404,
     },
+    InvalidToken: {
+      message: 'invalid token',
+      httpStatus: 401,
+    }
   };
   
