@@ -1,6 +1,7 @@
 export enum ErrorTypes {
-    EntityNotFound = 'EntityNotFound',
-    InvalidToken = 'InvalidToken',
+    UserNotFound = 'UserNotFound',
+    IncorrectUsername = 'IncorrectUsername',
+    IncorrectPassword = 'IncorrectPassword',
   }
   
   type ErrorResponseObject = {
@@ -13,13 +14,17 @@ export enum ErrorTypes {
   };
   
   export const errorCatalog: ErrorCatalog = {
-    EntityNotFound: {
+    UserNotFound: {
       message: 'Object not found',
       httpStatus: 404,
     },
-    InvalidToken: {
-      message: 'invalid token',
+    IncorrectUsername: {
+      message: 'Incorrect username',
       httpStatus: 401,
-    }
+    },
+    IncorrectPassword: {
+      message: 'Incorrect password',
+      httpStatus: 401,
+    },
   };
   

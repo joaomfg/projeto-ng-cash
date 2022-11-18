@@ -5,20 +5,21 @@ import User from '../database/models/user';
 import Account from '../database/models/account';
 import { IUser } from '../interfaces/IUser';
 import JwtValidation from '../auth/jwt';
+import { ErrorTypes } from '../errors/catalog';
 
 const sequelize = new Sequelize(config);
 
 export default class UserService {
-    model = User;
-    accountModel = Account;
+    private _model = User;
+    private _accountModel = Account;
 
     create = async (obj: any): Promise<string> => {        
         const { username, password } = obj;
 
         const result = await sequelize.transaction(async (t) => {
-            const newAccount = await this.accountModel.create({ balance: 100.00 });
+            const newAccount = await this._accountModel.create({ balance: 100.00 });
 
-            await this.model.create({
+            await this._model.create({
                 username,
                 password: bcrypt.hashSync(password, 8),
                 accountId: newAccount.id,
@@ -31,14 +32,14 @@ export default class UserService {
         return result;
     };
 
-    findById = async (id: string): Promise<IUser | string> => {
-        const user = await this.model.findByPk(
+    findById = async (id: string): Promise<IUser> => {
+        const user = await this._model.findByPk(
             id,
             { include: { model: Account, as: 'userAccount' },
         });
 
         if (!user) {
-            return 'User does not exist';
+            throw new Error(ErrorTypes.UserNotFound);
         }
 
         return user;
@@ -47,16 +48,16 @@ export default class UserService {
     login = async (obj: IUser): Promise<string> => {
         const { username, password } = obj;
 
-        const user = await this.model.findOne({ where: { username } });
+        const user = await this._model.findOne({ where: { username } });
 
         if (!user) {
-          return 'Incorrect username';
+            throw new Error(ErrorTypes.IncorrectUsername);
         }
 
         const comparePassword = bcrypt.compareSync(password, user.password);
 
         if (!comparePassword) {
-            return 'Incorrect password';
+            throw new Error(ErrorTypes.IncorrectPassword);
         }
 
         const token = JwtValidation.createJwt(username);
