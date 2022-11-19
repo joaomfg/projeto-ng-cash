@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import GenericInput from "../components/genericInput";
 import GenericButton from "../components/genericButton";
 import ErrorMessage from '../components/errorMessage';
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MasterProvider from "../context";
 
 function LoginPage() {
@@ -13,8 +13,6 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isModalError, setisModalError] = useState(false);
-
-  const location = useLocation();
 
   const handleDisabled = (n, p) => {
     if (n.length >= 3 && p.length >= 8) {
@@ -44,7 +42,6 @@ function LoginPage() {
   const handleLogin = () => {
     try {
       makeLogin({ username, password });
-      location.push('/account')
     } catch (err) {
       setisModalError(true);
     }
@@ -52,7 +49,7 @@ function LoginPage() {
 
   return (
     <section className="main-section">
-      <p className="title">Delivery App</p>
+      <p className="title">Bem-vindo(a) a NG.CASH!</p>
       <div className="login-container">
         <GenericInput
           className="text-input"
@@ -61,7 +58,7 @@ function LoginPage() {
           type="text"
           name="username"
           value={username}
-          placeholder="Seu nome de usuário"
+          placeholder="Nome de usuário"
           handleChange={handleChange}
         />
         <GenericInput

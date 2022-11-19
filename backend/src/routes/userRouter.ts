@@ -8,9 +8,9 @@ const userRouter = Router();
 
 const userController = new UserController();
 
-userRouter.get('/', ValidateUser.validateLogin, userController.login);
+userRouter.post('/', ValidateUser.validateLogin, userController.login);
 
-userRouter.get('/validate', JwtValidation.validateToken, userController.findById);
+userRouter.post('/validate', JwtValidation.validateToken, userController.findById);
 
 userRouter.post('/register', ValidateUser.validateRegister, userController.create);
 

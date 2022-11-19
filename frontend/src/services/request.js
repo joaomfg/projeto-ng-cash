@@ -9,13 +9,19 @@ export const requestData = async (endpoint) => {
   return data;
 };
 
-export const login = async (endpoint, body) => {
-  const { data } = await api.get(endpoint, body);
+export const sendData = async (endpoint, body) => {
+  const { data } = await api.post(endpoint, body);
   return data;
 };
 
-export const createUser = async (endpoint, body) => {
-  const { data } = await api.post(endpoint, body);
+export const sendDataToken = async (endpoint, token) => {
+  console.log(endpoint, token);
+  const { data } = await api.post(endpoint, {}, {
+    headers: {
+      'content-type': 'application/json',
+      authorization: token
+    }
+  });
   return data;
 };
 

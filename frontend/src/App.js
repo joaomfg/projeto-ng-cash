@@ -1,16 +1,19 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import './App.css'
+import { Routes, Route } from "react-router-dom";
 import MasterProvider from "./context/Providers/MasterProvider";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
     <div>
       <MasterProvider>
-        <Switch>
-          <Route exact path="/"><Redirect to="/login" /></Route>
-          <Route path="/login" component={LoginPage} />
-        </Switch>
+        <Routes>
+          <Route exact path="/" element={ <LoginPage /> } />
+          <Route path="/register" element={ <RegisterPage /> } />
+          {/* <Route path="/account" element={ <AccountPage /> } /> */}
+        </Routes>
       </MasterProvider>
     </div>
   );

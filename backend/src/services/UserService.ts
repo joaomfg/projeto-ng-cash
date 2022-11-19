@@ -46,6 +46,8 @@ export default class UserService {
     };
 
     login = async (obj: IUser): Promise<string> => {
+        console.log(obj);
+        
         const { username, password } = obj;
 
         const user = await this._model.findOne({ where: { username } });

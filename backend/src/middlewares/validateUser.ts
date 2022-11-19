@@ -6,7 +6,7 @@ import { UserZodSchema } from '../interfaces/IUser';
 export default class ValidateUser {
   static model = User;
 
-  static validateRegister = async (req: Request, res: Response, next: NextFunction) => {
+  static validateRegister = async (req: Request, _res: Response, next: NextFunction) => {
     const { username, password } = req.body;
 
     const userExists = await this.model.findOne({ where: { username } });
@@ -14,6 +14,8 @@ export default class ValidateUser {
     if (userExists) {
       throw new Error(ErrorTypes.TakenUsername);
     }
+
+    console.log('aqui');
 
     const parsed = UserZodSchema.safeParse({ username, password });
 
@@ -24,6 +26,7 @@ export default class ValidateUser {
 
   static validateLogin = async (req: Request, _res: Response, next: NextFunction) => {
     const { username, password } = req.body;
+    console.log(username, password);
 
     const parsed = UserZodSchema.safeParse({ username, password });
 
