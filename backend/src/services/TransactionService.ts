@@ -3,7 +3,6 @@ import Transaction from '../database/models/transaction';
 import * as config from '../database/config/database';
 import { ITransaction } from '../interfaces/ITransaction';
 import Account from '../database/models/account';
-import User from '../database/models/user';
 import { IAccount } from '../interfaces/IAccount';
 import { ErrorTypes } from '../errors/catalog';
 
@@ -77,9 +76,11 @@ export default class TransactionService {
 
         if (date) {
           const trDate = transactions.filter((t) => {
-            const realDate = t.createdAt?.toLocaleString();
+            const splitDate = t.createdAt?.toLocaleString().split(' ') || [];
+            const realDate = splitDate[0].split('/') || [];
+            const compareDate = `${realDate[2]}-${realDate[1]}-${Number(realDate[0]) + 1}`;            
             
-            return date === realDate?.split(' ')[0];
+            return date === compareDate;
           });
           transactions = trDate;
         }

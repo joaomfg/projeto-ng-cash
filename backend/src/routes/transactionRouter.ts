@@ -20,7 +20,7 @@ transactionRouter.get('/:id',
     transactionController.findUserTransactions,
 );
 
-transactionRouter.get('/filter/:id',
+transactionRouter.post('/filter/:id',
     JwtValidation.validateToken,
     transactionController.filterTr,
 );

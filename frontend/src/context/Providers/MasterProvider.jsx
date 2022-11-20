@@ -55,20 +55,26 @@ export default function MasterProvider({ children }) {
     return response;
   };
 
-  const makeTransaction = (body) => {
-    const response = sendTransaction('transaction/', body, token)
-      .then((data) => {
-        setTransactions([...transactions, data]);
-      })
+  const getUserAccount = (id) => {
+    const response = requestData(`login/${id}`, token)
+      .then((data) => data)
       .catch((error) => error.response.data);
 
     return response;
   };
 
-  const getUserAccount = (id) => {
-    const response = requestData(`login/${id}`, token)
-      .then((data) => data)
+  const makeTransaction = (body) => {
+    const response = sendTransaction('transaction/', body, token)
+      .then((data) => setTransactions([...transactions, data]))
       .catch((error) => error.response.data);
+
+    return response;
+  };
+
+  const filterTransactions = (id, body) => {
+    const response = sendTransaction(`transaction/filter/${id}`, body, token)
+      .then((data) => setTransactions(data))
+      .catch((error) => console.log(error.response.data));
 
     return response;
   };
@@ -80,6 +86,7 @@ export default function MasterProvider({ children }) {
     register,
     makeTransaction,
     getUserAccount,
+    filterTransactions,
   };
 
   const value = useMemo(() => contextValue, [contextValue]);
