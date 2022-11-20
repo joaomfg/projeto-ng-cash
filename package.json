@@ -6,7 +6,7 @@
   "scripts": {
     "install:front": "(cd frontend/ && npm install)",
     "install:back": "(cd backend/ && npm install)",
-    "install:apps": "npm install:front && npm install:back",
+    "install:apps": "npm run install:front && npm run install:back",
     "compose:up": "(docker-compose up -d --build)",
     "compose:down": "(docker-compose down --remove-orphans)"
   },
