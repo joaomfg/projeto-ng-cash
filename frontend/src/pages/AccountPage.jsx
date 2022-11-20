@@ -19,9 +19,13 @@ function AccountPage() {
             balance={userAccount.balance}
           />
 
-          <TransactionForms userId={id} />
+          <div className="account-container">
+            <div className="balance">{`Seu saldo: R$${userAccount.balance}`}</div>
 
-          <TransactionList userId={id} />
+            <TransactionForms userId={id} />
+
+            <TransactionList userId={id} />
+          </div>
         </section>
       )
   );

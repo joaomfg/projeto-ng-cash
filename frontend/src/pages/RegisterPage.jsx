@@ -50,7 +50,7 @@ function RegisterPage() {
 
   return (
     <section className="main-section">
-      <p className="title">Cadastro</p>
+      <p className="title">Registre-se!</p>
       <div className="login-container">
         <Input
           className="text-input"

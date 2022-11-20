@@ -1,27 +1,27 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MasterProvider from '../context';
 import Filters from './filters';
 
 export default function TransactionList() {
   const master = useContext(MasterProvider);
-  const { transactions, getUserAccount, user } = master;
+  const { transactions, getUserAccount } = master;
 
-  const [debitUser, setDebitUser] = useState({});
-  const [creditUser, setCreditUser] = useState({});
+  const [usersD, setUsersD] = useState([]);
+  const [usersC, setUsersC] = useState([]);
 
   useEffect(() => {
-    transactions.forEach(async (t) => {
-      const debit = await getUserAccount(t.debitedAccountId);
-      setDebitUser(debit);
+    transactions.map(async (t) => {
+      const debitUser = await getUserAccount(t.debitedAccountId);
+      const creditUser = await getUserAccount(t.creditedAccountId);
 
-      const credit = await getUserAccount(t.creditedAccountId);
-      setCreditUser(credit);
+      setUsersD([...usersD, debitUser.username]);
+      setUsersC([...usersC, creditUser.username]);
     });
   }, [transactions]);
 
   return (
-    <section>
-      <h2>Suas transações</h2>
+    <section className="table-container">
+      <h2 className="title">Suas transações</h2>
 
       <Filters />
 
@@ -37,13 +37,13 @@ export default function TransactionList() {
 
         <tbody>
           {transactions.length > 0
-            && transactions.map((t) => (
+            && transactions.map((t, i) => (
               <tr key={t.id}>
                 <td>
-                  {debitUser.id === user.id ? 'Você' : debitUser.username}
+                  {usersD[i]}
                 </td>
                 <td>
-                  {creditUser.id === user.id ? 'Você' : creditUser.username}
+                  {usersC[i]}
                 </td>
                 <td>{t.value}</td>
                 <td>{`${t.createdAt.split('T')[0]}`}</td>

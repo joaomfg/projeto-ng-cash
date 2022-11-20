@@ -20,7 +20,6 @@ services:
     ports:
       - 3001:3001
     working_dir: /app-backend
-    command: npm run dev
     volumes:
       - ./backend/src:/app-backend/src
     depends_on:
@@ -28,9 +27,9 @@ services:
         condition: service_healthy
     environment:
       - PORT=3001
-      - DB_NAME=ngCashDb
-      - DB_USER=postgres
+      - DB_USER=root
       - DB_PASSWORD=123456
+      - DB_NAME=ngCashDb
       - DB_HOST=localhost
       - DB_PORT=5432
     healthcheck:
@@ -41,11 +40,12 @@ services:
     image: postgres:latest
     container_name: db
     platform: linux/x86_64
+    user: postgres
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=root
       - POSTGRES_DB=ngCashDb
     restart: 'always'
     healthcheck:

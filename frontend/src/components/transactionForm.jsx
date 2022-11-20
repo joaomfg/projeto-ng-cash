@@ -41,7 +41,6 @@ export default function TransactionForms({ userId }) {
       creditUser,
       value: totalValue,
     });
-    console.log(response);
 
     if (response !== undefined) {
       setisModalError(true);
@@ -50,47 +49,48 @@ export default function TransactionForms({ userId }) {
   };
 
   return (
-    <div>
-      <h2>Realize uma transação para alguém!</h2>
+    <section>
+      <div className="account-forms">
+        <h2>Realize uma transação para alguém!</h2>
 
-      <div>
-        <Input
-          type="text"
-          name="creditUser"
-          value={creditUser}
-          handleChange={defaultHandler}
-          placeholder="fulano"
-          className=""
-          labelClassname=""
-          labelName="Nome do usuario"
-        />
+        <div className="transaction-container">
+          <Input
+            type="text"
+            name="creditUser"
+            value={creditUser}
+            handleChange={defaultHandler}
+            placeholder="fulano"
+            className=""
+            labelClassname="label-nr"
+            labelName="Nome do usuario"
+          />
 
-        <Input
-          type="number"
-          name="totalValue"
-          value={totalValue}
-          handleChange={defaultHandler}
-          placeholder=""
-          className=""
-          labelClassname=""
-          labelName="Valor"
-        />
+          <Input
+            type="number"
+            name="totalValue"
+            value={totalValue}
+            handleChange={defaultHandler}
+            placeholder="R$ 100,00"
+            className=""
+            labelClassname="label-nr"
+            labelName="Valor"
+          />
 
-        <Button
-          buttonName="ENVIAR"
-          isDisabled={isDisabled}
-          className=""
-          handleClick={handleNewTransaction}
-        />
+          <Button
+            buttonName="ENVIAR"
+            isDisabled={isDisabled}
+            className="secondary-btn"
+            handleClick={handleNewTransaction}
+          />
+        </div>
       </div>
-
       {isModalError && (
         <ErrorMessage
           className="error-message"
           message={errorMessage}
         />
       )}
-    </div>
+    </section>
   );
 }
 

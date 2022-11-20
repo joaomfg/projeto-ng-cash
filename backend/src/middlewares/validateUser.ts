@@ -15,8 +15,6 @@ export default class ValidateUser {
       throw new Error(ErrorTypes.TakenUsername);
     }
 
-    console.log('aqui');
-
     const parsed = UserZodSchema.safeParse({ username, password });
 
     if (!parsed.success) throw parsed.error;
@@ -26,7 +24,6 @@ export default class ValidateUser {
 
   static validateLogin = async (req: Request, _res: Response, next: NextFunction) => {
     const { username, password } = req.body;
-    console.log(username, password);
 
     const parsed = UserZodSchema.safeParse({ username, password });
 

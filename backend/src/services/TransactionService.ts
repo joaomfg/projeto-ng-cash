@@ -1,6 +1,6 @@
 import { Op, Sequelize } from 'sequelize';
 import Transaction from '../database/models/transaction';
-import * as config from '../database/config/database';
+import * as config from '../database/config/config';
 import { ITransaction } from '../interfaces/ITransaction';
 import Account from '../database/models/account';
 import { IAccount } from '../interfaces/IAccount';

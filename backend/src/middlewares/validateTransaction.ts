@@ -9,7 +9,6 @@ export default class ValidateTransaction {
 
   static validateUsers = async (req: Request, _res: Response, next: NextFunction) => {
     const { debitUserId, creditUser, value } = req.body;
-    console.log(req.body);
     
     const getDebitUser = await this._service.findById(debitUserId);
     const getCreditUser = await this._service.findByUsername(creditUser);
@@ -34,7 +33,7 @@ export default class ValidateTransaction {
   static validateAccount = async (req: Request, _res: Response, next: NextFunction) => {
     const { debitUser, creditUser, value } = req.body;
 
-    const { userAccount } = debitUser;
+    const { user : { userAccount } } = debitUser;
 
     if ((Number(userAccount.balance) - Number(value)) <= 0) {
       throw new Error(ErrorTypes.InsuficientFunds);

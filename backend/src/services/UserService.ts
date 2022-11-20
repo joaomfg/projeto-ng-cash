@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { Sequelize, Op } from 'sequelize';
-import * as config from '../database/config/database';
+import * as config from '../database/config/config';
 import User from '../database/models/user';
 import Account from '../database/models/account';
 import { IUser } from '../interfaces/IUser';
@@ -45,7 +45,6 @@ export default class UserService {
         if (!user) {
             throw new Error(ErrorTypes.UserNotFound);
         }
-        console.log(user.dataValues);
 
         const transactions = await this._transactionModel.findAll({
             where: {
@@ -60,8 +59,6 @@ export default class UserService {
     };
 
     login = async (obj: IUser): Promise<string> => {
-        console.log(obj);
-
         const { username, password } = obj;
 
         const user = await this._model.findOne({ where: { username } });
@@ -81,9 +78,10 @@ export default class UserService {
         return token;
     };
 
-    findByUsername = async (username: string): Promise<IUser> => {
+    findByUsername = async (username: string): Promise<Partial<IUser>> => {
         const user = await this._model.findOne({
             where: { username },
+            attributes: { exclude: ['password'] },
             include: { model: Account, as: 'userAccount' },
         });
 

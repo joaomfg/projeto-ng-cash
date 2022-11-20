@@ -31,7 +31,7 @@ export default function Filters() {
   };
 
   return (
-    <div>
+    <div className="filter-container">
       <label
         htmlFor="cashIn"
       >
@@ -59,7 +59,7 @@ export default function Filters() {
       </label>
 
       <label
-        htmlFor="cashOut"
+        htmlFor="date"
       >
         <span>Data</span>
         <input

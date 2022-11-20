@@ -52,21 +52,22 @@ function LoginPage() {
   return (
     <section className="main-section">
       <p className="title">Bem-vindo(a) a NG.CASH!</p>
+
       <div className="login-container">
         <Input
           className="text-input"
           labelClassname="label-input"
-          labelName="Login"
+          labelName="Nome de usuário"
           type="text"
           name="username"
           value={username}
-          placeholder="Nome de usuário"
+          placeholder=""
           handleChange={handleChange}
         />
         <Input
           className="text-input"
           labelClassname="label-input"
-          labelName="Password"
+          labelName="Senha"
           type="password"
           name="password"
           value={password}
