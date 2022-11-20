@@ -4,8 +4,13 @@ const api = axios.create({
   baseURL: 'http://localhost:3001/',
 });
 
-export const requestData = async (endpoint) => {
-  const { data } = await api.get(endpoint);
+export const requestData = async (endpoint, token) => {
+  const { data } = await api.get(endpoint, {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token,
+    },
+  });
   return data;
 };
 
@@ -15,24 +20,23 @@ export const sendData = async (endpoint, body) => {
 };
 
 export const sendDataToken = async (endpoint, token) => {
-  console.log(endpoint, token);
   const { data } = await api.post(endpoint, {}, {
     headers: {
-      'content-type': 'application/json',
-      authorization: token
-    }
+      'Content-Type': 'application/json',
+      authorization: token,
+    },
   });
   return data;
 };
 
-export const deleteUser = async (endpoint) => {
-  const { data } = await api.delete(endpoint);
-  return data;
-};
-
-export const updateUser = async (endpoint, body) => {
-  const { data } = await api.patch(endpoint, body);
-  return data;
+export const sendTransaction = async (endpoint, data, token) => {
+  const response = await api.post(endpoint, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token,
+    },
+  });
+  return response.data;
 };
 
 export default api;

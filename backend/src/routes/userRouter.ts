@@ -12,6 +12,8 @@ userRouter.post('/', ValidateUser.validateLogin, userController.login);
 
 userRouter.post('/validate', JwtValidation.validateToken, userController.findById);
 
+userRouter.get('/:id', JwtValidation.validateToken, userController.findByAccount);
+
 userRouter.post('/register', ValidateUser.validateRegister, userController.create);
 
 export default userRouter;

@@ -1,14 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
-import React, { useState, useMemo, useEffect } from "react";
-import PropTypes from "prop-types";
-import MyContext from "../index";
-import { sendData, sendDataToken } from "../../services/request";
+import React, { useState, useMemo, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import MyContext from '../index';
+import {
+  sendData,
+  sendDataToken,
+  sendTransaction,
+  requestData,
+} from '../../services/request';
 import { getLocalStorage, setLocalStorage } from '../../helpers/localStorage';
-import { useNavigate } from "react-router-dom";
 
 export default function MasterProvider({ children }) {
   const [user, setUser] = useState({});
+  const [transactions, setTransactions] = useState([]);
 
   const navigate = useNavigate();
 
@@ -16,36 +21,65 @@ export default function MasterProvider({ children }) {
 
   useEffect(() => {
     if (token !== undefined) {
-      sendDataToken("login/validate", token)
+      sendDataToken('login/validate', token)
         .then((data) => {
-          setUser(data);
+          setUser(data.user);
+          setTransactions(data.transactions);
           navigate('/account');
         })
-        .catch((error) => console.log(error.response.data.message));
+        .catch((error) => console.log(error.response.data.error));
+    } else {
+      navigate('/');
     }
   }, [token]);
 
   const makeLogin = (body) => {
-    sendData('login/', body)
+    const response = sendData('login/', body)
       .then((data) => {
         setLocalStorage('user', data);
+        navigate('/account');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => error.response.data);
+
+    return response;
   };
 
   const register = (body) => {
-    sendData('login/register', body)
-    .then((data) => {
-      setLocalStorage('user', data);
-      navigate('/account');
-    })
-    .catch((error) => console.log(error));
+    const response = sendData('login/register', body)
+      .then((data) => {
+        setLocalStorage('user', data);
+        navigate('/account');
+      })
+      .catch((error) => error.response.data);
+
+    return response;
+  };
+
+  const makeTransaction = (body) => {
+    const response = sendTransaction('transaction/', body, token)
+      .then((data) => {
+        setTransactions([...transactions, data]);
+      })
+      .catch((error) => error.response.data);
+
+    return response;
+  };
+
+  const getUserAccount = (id) => {
+    const response = requestData(`login/${id}`, token)
+      .then((data) => data)
+      .catch((error) => error.response.data);
+
+    return response;
   };
 
   const contextValue = {
     user,
+    transactions,
     makeLogin,
     register,
+    makeTransaction,
+    getUserAccount,
   };
 
   const value = useMemo(() => contextValue, [contextValue]);

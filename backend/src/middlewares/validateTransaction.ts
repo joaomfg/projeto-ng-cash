@@ -9,7 +9,8 @@ export default class ValidateTransaction {
 
   static validateUsers = async (req: Request, _res: Response, next: NextFunction) => {
     const { debitUserId, creditUser, value } = req.body;
-
+    console.log(req.body);
+    
     const getDebitUser = await this._service.findById(debitUserId);
     const getCreditUser = await this._service.findByUsername(creditUser);
     

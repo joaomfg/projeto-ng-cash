@@ -1,18 +1,19 @@
-import React, { useState, useContext } from "react";
-import GenericInput from "../components/genericInput";
-import GenericButton from "../components/genericButton";
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import Input from '../components/input';
+import Button from '../components/button';
 import ErrorMessage from '../components/errorMessage';
-import { Link } from "react-router-dom";
-import MasterProvider from "../context";
+import MasterProvider from '../context';
 
 function LoginPage() {
   const master = useContext(MasterProvider);
   const { makeLogin } = master;
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [isModalError, setisModalError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleDisabled = (n, p) => {
     if (n.length >= 3 && p.length >= 8) {
@@ -26,11 +27,11 @@ function LoginPage() {
     const { name, value } = target;
 
     switch (name) {
-      case "username":
+      case 'username':
         setUsername(value);
         handleDisabled(value, password);
         break;
-      case "password":
+      case 'password':
         setPassword(value);
         handleDisabled(username, value);
         break;
@@ -39,11 +40,12 @@ function LoginPage() {
     }
   };
 
-  const handleLogin = () => {
-    try {
-      makeLogin({ username, password });
-    } catch (err) {
+  const handleLogin = async () => {
+    const response = await makeLogin({ username, password });
+
+    if (response !== undefined) {
       setisModalError(true);
+      setErrorMessage(response.error);
     }
   };
 
@@ -51,7 +53,7 @@ function LoginPage() {
     <section className="main-section">
       <p className="title">Bem-vindo(a) a NG.CASH!</p>
       <div className="login-container">
-        <GenericInput
+        <Input
           className="text-input"
           labelClassname="label-input"
           labelName="Login"
@@ -61,7 +63,7 @@ function LoginPage() {
           placeholder="Nome de usuário"
           handleChange={handleChange}
         />
-        <GenericInput
+        <Input
           className="text-input"
           labelClassname="label-input"
           labelName="Password"
@@ -71,14 +73,14 @@ function LoginPage() {
           placeholder="********"
           handleChange={handleChange}
         />
-        <GenericButton
+        <Button
           className="primary-btn"
           buttonName="LOGIN"
-          handleClick={ handleLogin }
+          handleClick={handleLogin}
           isDisabled={isDisabled}
         />
         <Link to="/register">
-          <GenericButton
+          <Button
             className="tertiary-btn"
             buttonName="Ainda não tenho conta"
             handleClick={() => {}}
@@ -89,9 +91,9 @@ function LoginPage() {
       {isModalError && (
       <ErrorMessage
         className="error-message"
-        message="Email ou senha inválidos"
+        message={errorMessage}
       />
-    )}
+      )}
     </section>
   );
 }

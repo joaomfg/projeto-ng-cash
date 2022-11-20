@@ -3,6 +3,7 @@ import Transaction from '../database/models/transaction';
 import * as config from '../database/config/database';
 import { ITransaction } from '../interfaces/ITransaction';
 import Account from '../database/models/account';
+import User from '../database/models/user';
 import { IAccount } from '../interfaces/IAccount';
 import { ErrorTypes } from '../errors/catalog';
 

@@ -27,6 +27,14 @@ class UserController {
 
     res.status(200).json(findUser);
   };
+
+  findByAccount = async (req: Request, res: Response) => {    
+    const { id } = req.params;
+
+    const findUser = await this._service.findByAccount(id);
+
+    res.status(200).json(findUser);
+  };
 }
 
 export default UserController;

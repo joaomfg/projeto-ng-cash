@@ -1,6 +1,7 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
-function GenericInput({
+function Input({
   type,
   name,
   value,
@@ -12,23 +13,23 @@ function GenericInput({
 }) {
   return (
     <label
-      className={ `${labelClassname}` }
-      htmlFor={ `${name}` }
+      className={`${labelClassname}`}
+      htmlFor={`${name}`}
     >
       <span>{labelName}</span>
       <input
-        className={ `${className}` }
-        type={ `${type}` }
-        name={ `${name}` }
-        value={ `${value}` }
-        placeholder={ `${placeholder}` }
-        onChange={ handleChange }
+        className={`${className}`}
+        type={`${type}`}
+        name={`${name}`}
+        value={`${value}`}
+        placeholder={`${placeholder}`}
+        onChange={handleChange}
       />
     </label>
   );
 }
 
-GenericInput.propTypes = {
+Input.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
@@ -39,4 +40,4 @@ GenericInput.propTypes = {
   labelName: PropTypes.string.isRequired,
 };
 
-export default GenericInput;
+export default Input;

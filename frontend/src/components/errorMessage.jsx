@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function ErrorMessage({ message, className }) {
   return (
     <p
-      className={ `${className}` }
+      className={`${className}`}
     >
       {message}
     </p>
