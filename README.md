@@ -129,9 +129,9 @@ Na sua máquina você deve ter:
   * `cd projeto-ng-cash`
 
   3. Instale as dependências
-  * `npm install`
+  * `npm install:apps`
 
-  4. Inicie o docker-compose e aguarde
+  4. Inicie o docker-compose e aguarde a finalização
   * `npm run compose:up`
 
   5. Após a inicialização do projeto for concluída, acesse no seu navegador:
