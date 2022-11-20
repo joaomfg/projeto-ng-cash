@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install:front": "(cd frontend/ && npm install)",
+    "install:back": "(cd backend/ && npm install)",
+    "install:apps": "npm install:front && npm install:back",
+    "compose:up": "(docker-compose up -d --build)",
+    "compose:down": "(docker-compose down --remove-orphans)"
   },
   "keywords": [],
   "author": "",
