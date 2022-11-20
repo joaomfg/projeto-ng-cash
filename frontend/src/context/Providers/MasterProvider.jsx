@@ -79,6 +79,14 @@ export default function MasterProvider({ children }) {
     return response;
   };
 
+  const makeLogOut = () => {
+    // eslint-disable-next-line no-undef
+    localStorage.clear();
+    setUser({});
+    setTransactions([]);
+    navigate('/');
+  };
+
   const contextValue = {
     user,
     transactions,
@@ -87,6 +95,7 @@ export default function MasterProvider({ children }) {
     makeTransaction,
     getUserAccount,
     filterTransactions,
+    makeLogOut,
   };
 
   const value = useMemo(() => contextValue, [contextValue]);
