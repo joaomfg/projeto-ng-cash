@@ -30,11 +30,11 @@ services:
       - ./backend/src:/app-backend/src
     environment:
       - PORT=3001
-      - DB_USER=root
+      - DB_USER=postgres
       - DB_PASSWORD=123456
-      - DB_NAME=ngCashDb
-      - DB_HOST=localhost
-      - DB_PORT=3002
+      - DB_NAME=ng_cash_db
+      - DB_HOST=db
+      - DB_PORT=5432
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"]  # Caso utilize outra porta interna para o back, altere ela aqui também
       timeout: 10s
@@ -45,11 +45,11 @@ services:
     platform: linux/x86_64
     user: postgres
     ports:
-      - 3002:5432
+      - 5432:5432
     environment:
-      - POSTGRES_USER=root
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=ngCashDb
+      - POSTGRES_DB=ng_cash_db
     restart: 'always'
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]

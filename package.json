@@ -7,6 +7,7 @@
     "install:front": "(cd frontend/ && npm install)",
     "install:back": "(cd backend/ && npm install)",
     "install:apps": "npm run install:front && npm run install:back",
+    "db:build": "(cd backend/ && npm run db:reset)",
     "compose:up": "(docker-compose up -d --build)",
     "compose:down": "(docker-compose down --remove-orphans)"
   },

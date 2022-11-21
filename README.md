@@ -134,21 +134,23 @@ Na sua máquina você deve ter:
   4. Inicie o docker-compose e aguarde a finalização
   * `npm run compose:up`
 
-  5. Após a inicialização do projeto for concluída, acesse no seu navegador:
-  * [`http://localhost:3000`](http://localhost:3000)
+  5. Monte o banco de dados com o comando
+  * `npm run db:build`
 
-  6. Se tudo deu certo, basta criar uma conta e atingir
-  sua independência financeira
+  6. Agora basta acessar no seu navegador:
+  * [`http://localhost:3000`](http://localhost:3000)
 
 
 <details>
 <summary><strong> ⚠️ DICAS!</strong></summary><br />
 
+   - Todos os comandos devem ser realizados na **raiz do projeto**
+
    - Use comando `npm run compose:down` para finalizar a aplicação
 
    - A extensão do _VS Code_  [Docker](https://github.com/microsoft/vscode-docker) ajuda a vizualizar a aplicação!
 
-   - Caso ocorra algum erro com a inicialização, made um email para _joaomarcelofg@hotmail.com_
+   - Caso ocorra algum erro, mande um email para _joaomarcelofg@hotmail.com_
 
 </details>
 
