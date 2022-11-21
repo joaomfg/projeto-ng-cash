@@ -10,7 +10,10 @@ export default class ValidateTransaction {
     const { debitUserId, creditUser, value } = req.body;
 
     const getDebitUser = await this._model.findByPk(debitUserId, { include: { model: Account, as: 'userAccount' } });
-    const getCreditUser = await this._model.findOne({ where: { username: creditUser } });
+    const getCreditUser = await this._model.findOne({
+      where: { username: creditUser },
+      include: { model: Account, as: 'userAccount' },
+    });
 
     if (!getCreditUser || !getDebitUser) {
       throw new Error(ErrorTypes.UserNotFound);
@@ -37,6 +40,9 @@ export default class ValidateTransaction {
     if ((Number(userAccount.balance) - Number(value)) <= 0) {
       throw new Error(ErrorTypes.InsuficientFunds);
     }
+
+    console.log(creditUser);
+
 
     req.body = {
       debitedAccountId: userAccount.id,
