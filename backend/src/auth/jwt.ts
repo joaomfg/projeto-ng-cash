@@ -3,11 +3,12 @@ import { Response, Request, NextFunction } from 'express';
 import UserService from '../services/UserService';
 import { readFileSync } from 'fs';
 import { ErrorTypes } from '../errors/catalog';
+import User from '../database/models/user';
 
 const JWT_SECRET = readFileSync('./jwt.key', { encoding: "utf8" }); // A senha esta 'exposta' para fins de demostração ;)
 
 export default class JwtValidation {
-  private static _service = new UserService();
+  private static _model = User;
   
   static createJwt = (username: string): string => {
     const token = Jwt.sign(
@@ -29,7 +30,7 @@ export default class JwtValidation {
       
       const decoded = Jwt.verify(authorization, JWT_SECRET) as Jwt.JwtPayload;
       
-      const user = await this._service.findByUsername(decoded.data.username);
+      const user = await this._model.findOne({ where: { username: decoded.data.username } });
       
       if (!user) {
         return res.status(401).json({ message: 'Expired token' });

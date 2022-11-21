@@ -62,7 +62,7 @@ export default function TransactionForms({ userId }) {
             placeholder="fulano"
             className=""
             labelClassname="label-nr"
-            labelName="Nome do usuario"
+            labelName="Nome do usuário"
           />
 
           <Input

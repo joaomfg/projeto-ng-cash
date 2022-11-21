@@ -6,7 +6,7 @@ const config: Options = {
   password: process.env.DB_PASSWORD || '123456',
   database: process.env.DB_NAME || 'ngCashDb',
   host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT) || 5432,
+  port: Number(process.env.DB_PORT) || 3002,
   dialect: 'postgres',
   dialectOptions: {
     timezone: 'Z',

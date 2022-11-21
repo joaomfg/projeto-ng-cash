@@ -12,4 +12,4 @@ EXPOSE 3001
 
 RUN npm run build
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "start" ]

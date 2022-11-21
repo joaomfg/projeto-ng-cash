@@ -42,6 +42,7 @@ export default class UserService {
                 include: { model: Account, as: 'userAccount' },
             });
 
+            console.log(id);
         if (!user) {
             throw new Error(ErrorTypes.UserNotFound);
         }
