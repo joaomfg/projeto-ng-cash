@@ -3,8 +3,6 @@ import { ZodError } from 'zod';
 import { ErrorTypes, errorCatalog } from '../errors/catalog';
 
 const errorHandler: ErrorRequestHandler = (err: Error | ZodError, _req, res, _next) => {
-  console.log('ERRO!!!');
-  
   if (err instanceof ZodError) {
     return res.status(400).json({ message: err.issues });
   }
@@ -15,7 +13,6 @@ const errorHandler: ErrorRequestHandler = (err: Error | ZodError, _req, res, _ne
 
   if (mappedError) {
     const { httpStatus, message } = mappedError;
-    console.log(message);
     return res.status(httpStatus).json({ error: message });
   }
 

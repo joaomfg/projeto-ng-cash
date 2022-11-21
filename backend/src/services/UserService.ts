@@ -16,22 +16,28 @@ export default class UserService {
     private _transactionModel = Transaction;
 
     create = async (obj: any): Promise<string> => {
+      try {
         const { username, password } = obj;
 
         const result = await sequelize.transaction(async (t) => {
-            const newAccount = await this._accountModel.create({ balance: 100.00 });
-
+            const newAccount = await this._accountModel.create({ balance: 100.00 }, { transaction: t });
+                
             await this._model.create({
-                username,
-                password: bcrypt.hashSync(password, 8),
-                accountId: newAccount.id,
+            username,
+            password: bcrypt.hashSync(password, 8),
+            accountId: newAccount.id,
             },
-                { transaction: t });
+            { transaction: t });
 
             return JwtValidation.createJwt(username);
-        });
+            });
 
         return result;
+      } catch (err: any) {
+        console.log(err);
+        
+        throw new Error(err.message);
+      }
     };
 
     findById = async (id: string): Promise<any> => {
@@ -42,7 +48,6 @@ export default class UserService {
                 include: { model: Account, as: 'userAccount' },
             });
 
-            console.log(id);
         if (!user) {
             throw new Error(ErrorTypes.UserNotFound);
         }
@@ -95,6 +100,7 @@ export default class UserService {
 
     findByAccount = async (accountId: string) => {
         const user = await this._model.findOne({
+            attributes: { exclude: ['password'] },
             where: { accountId },
         });
 
