@@ -7,8 +7,6 @@ Leia esse documento para as instruções de como iniciar o projeto e suas especi
 
 Aqui você terá acesso ao contexto geral do projeto, ou seja, seu tema central.
 
-  ![Exemplo app front](assets/frontend-example.png)
-
   A `NG.CASH` _(segundo o [site ofical](https://ng.cash/))_ é uma carteira digital da Nova Geração, que te ajuda a alcançar a independência financeira.
 
   Dito isso, esse projeto visa simular uma plataforma de transações financeiras entre usuários. 

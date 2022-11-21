@@ -12,14 +12,6 @@ export default class TransactionController {
     res.status(200).json(newUser);
   };
 
-  findUserTransactions = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    const allUserTransactions = await this._service.findUserTransactions(id);
-
-    res.status(200).json(allUserTransactions);
-  };
-
   filterTr = async (req: Request, res: Response) => {
     const { body } = req;
     const { id } = req.params;

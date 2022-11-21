@@ -15,11 +15,6 @@ transactionRouter.post('/',
     transactionController.newTransaction,
 );
 
-transactionRouter.get('/:id',
-    JwtValidation.validateToken,
-    transactionController.findUserTransactions,
-);
-
 transactionRouter.post('/filter/:id',
     JwtValidation.validateToken,
     transactionController.filterTr,
