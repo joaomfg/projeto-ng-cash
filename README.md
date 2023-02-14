@@ -152,4 +152,4 @@ Na sua máquina você deve ter:
 
 </details>
 
-_Esse projeto foi desenvolvido por João Marcelo Franco Gomes, todos os direitos reservados @ 2022_
+_Esse projeto foi desenvolvido por João Marcelo Franco Gomes, todos os direitos reservados @ 2022 - 2023_
